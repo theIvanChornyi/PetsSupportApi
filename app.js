@@ -17,11 +17,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(statitDir));
 
-app.route('/petsupport/auth', authRouter);
-app.route('/petsupport/services', servicesRouter);
-app.route('/petsupport/news', newsRouter);
-app.route('/petsupport/notices', noticesRouter);
-app.route('/petsupport/user', userRouter);
+app.use('/petsupport/auth', authRouter);
+app.use('/petsupport/services', servicesRouter);
+app.use('/petsupport/news', newsRouter);
+app.use('/petsupport/notices', noticesRouter);
+app.use('/petsupport/user', userRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
