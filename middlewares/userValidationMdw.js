@@ -7,10 +7,23 @@ const {
   phoneRegExp,
 } = require('../helpers/regExpressions');
 
-const userValidationMdw = async (req, res, next) => {
+const userRegValidationMdw = async (req, res, next) => {
   try {
     const userRequest = await req.body;
     await schemaCreate.validateAsync(userRequest);
+    next();
+  } catch (error) {
+    if (error.name === 'ValidationError') {
+      next(createError(400, error.message));
+    }
+    next(error);
+  }
+};
+
+const userUpdateValidationMdw = async (req, res, next) => {
+  try {
+    const userRequest = await req.body;
+    await schemaUpdate.validateAsync(userRequest);
     next();
   } catch (error) {
     if (error.name === 'ValidationError') {
@@ -28,4 +41,12 @@ const schemaCreate = Joi.object({
   location: Joi.string().max(100).required(),
 });
 
-module.exports = userValidationMdw;
+const schemaUpdate = Joi.object({
+  email: Joi.string().pattern(emailRegExp),
+  name: Joi.string().pattern(userNameRegExp).max(100),
+  phone: Joi.string().pattern(phoneRegExp).min(13).max(13),
+  location: Joi.string().max(100),
+  birthday: Joi.date(),
+});
+
+module.exports = { userRegValidationMdw, userUpdateValidationMdw };
