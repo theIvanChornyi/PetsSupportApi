@@ -5,7 +5,7 @@ const User = require('../../models/userModel');
 
 const { TOKEN_SALT } = require('../../helpers/config');
 
-const loginController = async (req, res, next) => {
+const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
 
   const reqUser = await User.findOne({ email });
@@ -29,4 +29,4 @@ const loginController = async (req, res, next) => {
   return res.status(200).json(user);
 };
 
-module.exports = loginController;
+module.exports = loginUser;

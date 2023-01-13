@@ -4,7 +4,7 @@ const User = require('../models/userModel');
 const createError = require('../helpers/createError');
 const { TOKEN_SALT } = require('../helpers/config');
 
-const authMiddleware = async (req, res, next) => {
+const authMdw = async (req, res, next) => {
   try {
     const { authorization = '' } = req.headers;
     if (!authorization) {
@@ -36,4 +36,4 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-module.exports = authMiddleware;
+module.exports = authMdw;

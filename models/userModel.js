@@ -1,12 +1,19 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+const {
+  emailRegExp,
+  passwordRegExp,
+  userNameRegExp,
+  phoneRegExp,
+} = require('../helpers/regExpressions');
+
 const userSchema = new mongoose.Schema(
   {
     email: {
       type: String,
       required: [true, 'Email is required'],
-      match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      match: emailRegExp,
       unique: true,
     },
     password: {
@@ -14,20 +21,20 @@ const userSchema = new mongoose.Schema(
       required: [true, 'Password is required'],
       minLength: 7,
       maxLength: 32,
-      match: /^\S*$/,
+      match: passwordRegExp,
     },
     name: {
       type: String,
       required: [true, 'Name is required'],
       maxLength: 100,
-      match: /^[a-zA-Z]+$/,
+      match: userNameRegExp,
     },
     phone: {
       type: String,
       required: [true, 'Name is required'],
       minLength: 13,
       maxLength: 13,
-      match: /^\+380\d{3}\d{2}\d{2}\d{2}$/,
+      match: phoneRegExp,
       unique: true,
     },
     avatarURL: {
@@ -60,14 +67,3 @@ userSchema.pre('save', async function () {
 const User = mongoose.model('user', userSchema);
 
 module.exports = User;
-
-// email*
-// password*
-// name*
-// location*
-// phone*
-// birthday*
-// token*
-// avatar*
-// pets
-// notice

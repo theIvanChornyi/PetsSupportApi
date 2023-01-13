@@ -1,17 +1,20 @@
 const express = require('express');
 const ctrlWrapper = require('../helpers/ctrlWrapper');
-const registrationController = require('../controllers/authControllers/registrationController');
-const loginController = require('../controllers/authControllers/loginController');
-const logoutController = require('../controllers/authControllers/logoutController');
+const authMdw = require('../middlewares/authMdw');
+const userValidationMdw = require('../middlewares/userValidationMdw');
 
-const authMiddleware = require('../middlewares/authMiddleware');
+const registrationUser = require('../controllers/authControllers/registrationUser');
+const loginUser = require('../controllers/authControllers/loginUser');
+const logoutUser = require('../controllers/authControllers/logoutUser');
+const currentUser = require('../controllers/authControllers/currentUser');
+const changeUser = require('../controllers/authControllers/changeUser');
 
 const router = express.Router();
 
-router.post('/registration', ctrlWrapper(registrationController));
-router.post('/login', ctrlWrapper(loginController));
-router.get('/logout', authMiddleware, ctrlWrapper(logoutController));
-router.get('/current');
-router.put('/');
+router.post('/registration', userValidationMdw, ctrlWrapper(registrationUser));
+router.post('/login', ctrlWrapper(loginUser));
+router.get('/logout', authMdw, ctrlWrapper(logoutUser));
+router.get('/current', authMdw, ctrlWrapper(currentUser));
+router.put('/', authMdw, ctrlWrapper(changeUser));
 
 module.exports = router;

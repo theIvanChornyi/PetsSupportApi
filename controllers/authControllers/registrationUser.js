@@ -3,7 +3,7 @@ const User = require('../../models/userModel');
 
 const { TOKEN_SALT } = require('../../helpers/config');
 
-const registrationController = async (req, res, next) => {
+const registrationUser = async (req, res, next) => {
   const { email, password, name, location, phone } = req.body;
   const { _id } = await User.create({
     email,
@@ -26,4 +26,4 @@ const registrationController = async (req, res, next) => {
   }
 };
 
-module.exports = registrationController;
+module.exports = registrationUser;
