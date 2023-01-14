@@ -18,7 +18,7 @@ const registrationUser = async (req, res, next) => {
       { _id },
       { token },
       { new: true }
-    ).select({ password: 0, pets: 0, notice: 0 });
+    ).select({ name: 1, token: 1 });
     return res.status(201).json(user);
   } catch (error) {
     await User.findByIdAndRemove(_id);

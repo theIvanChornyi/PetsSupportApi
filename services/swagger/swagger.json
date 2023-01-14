@@ -318,7 +318,7 @@
       "NewUserResponse": {
         "type": "object",
         "properties": {
-          "id": {
+          "_id": {
             "type": "string",
             "description": "User`s id",
             "format": "id"
@@ -339,20 +339,20 @@
       "CurrentUserResponse": {
         "type": "object",
         "properties": {
-          "id": {
+          "_id": {
             "type": "string",
             "description": "User`s id",
             "format": "id"
+          },
+           "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
           },
           "name": {
             "type": "string",
             "description": "User's name only words without numbers and symbols",
             "example": "Gretta"
-          },
-          "email": {
-            "type": "string",
-            "description": "User's email",
-            "format": "email"
           },
           "phone": {
             "type": "string",
@@ -360,11 +360,18 @@
             "format": "phone",
             "example": "+380999999999"
           },
+          "avatarURL":{
+            "type": "string",
+            "description": "User`s avatar image",
+            "format": "url"
+          },
           "location": {
             "type": "string",
             "description": "User`s location Region and City",
             "example": "Brovary, Kyiv"
           },
+          "pets":{"type": "string"},
+          "notice":{"type": "string"},
           "birthday": {
             "type": "string",
             "description": "Users date of birthday",
