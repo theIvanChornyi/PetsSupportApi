@@ -1,0 +1,490 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Pets Support API",
+    "description": "Its API for web aplication Pets Supprors",
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "https://petssupportapi.onrender.com"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authorization endpoints"
+    },
+    {
+      "name": "Services-sidebar",
+      "description": "Endpoint to give serveses contact information"
+    },
+    {
+      "name": "News",
+      "description": "Endpoint to give news"
+    },
+    {
+      "name": "Noticess",
+      "description": "Noticess endpoints"
+    },
+    {
+      "name": "User",
+      "description": "User endpoints"
+    }
+  ],
+  "paths": {
+    "/auth/registration": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Create new user.",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Email in use"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "LogIn user",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/current": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get current user",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentUserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Logout current user",
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/services": {
+      "get": {
+        "tags": [
+          "Services-sidebar"
+        ],
+        "summary": "Get information about our friends",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OurFriendsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news": {
+      "get": {
+        "tags": [
+          "News"
+        ],
+        "summary": "Get news information",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BadRequest": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "description": "Bad Request"
+      },
+      "NewUserRequest": {
+        "required": [
+          "email",
+          "location",
+          "name",
+          "password",
+          "phone"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password length: min 7 max:32",
+            "format": "password",
+            "example": "password"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name only words without numbers and symbols",
+            "example": "Gretta"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone with country code 13 symbols length",
+            "format": "phone",
+            "example": "+380999999999"
+          },
+          "location": {
+            "type": "string",
+            "description": "User`s location Region and City",
+            "example": "Brovary, Kyiv"
+          }
+        },
+        "description": "New user registration requeest body"
+      },
+      "LoginUserRequest": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password length: min 7 max:32",
+            "format": "password",
+            "example": "password"
+          }
+        },
+        "description": "User logIn requeest body"
+      },
+      "NewUserResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User`s id",
+            "format": "id"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name only words without numbers and symbols",
+            "example": "Gretta"
+          },
+          "token": {
+            "type": "string",
+            "description": "Bearer token",
+            "format": "jwt"
+          }
+        },
+        "description": "User requeest body"
+      },
+      "CurrentUserResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User`s id",
+            "format": "id"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name only words without numbers and symbols",
+            "example": "Gretta"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone with country code 13 symbols length",
+            "format": "phone",
+            "example": "+380999999999"
+          },
+          "location": {
+            "type": "string",
+            "description": "User`s location Region and City",
+            "example": "Brovary, Kyiv"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "Users date of birthday",
+            "format": "date"
+          },
+          "token": {
+            "type": "string",
+            "description": "Bearer token",
+            "format": "jwt"
+          }
+        },
+        "description": "Current user requeest body"
+      },
+      "OurFriendsResponse": {
+        "type": "array",
+        "description": "Our friends",
+        "items": {
+          "$ref": "#/components/schemas/Sponsor"
+        }
+      },
+      "Sponsor": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Притулок для бездомних тварин 'Сіріус'"
+          },
+          "url": {
+            "type": "string",
+            "format": "url",
+            "example": "https://dogcat.com.ua"
+          },
+          "addressUrl": {
+            "type": "string",
+            "format": "url",
+            "example": "https://goo.gl/maps/iq8NXEUf31EAQCzc6"
+          },
+          "imageUrl": {
+            "type": "string",
+            "format": "url",
+            "example": "https://storage.googleapis.com/kidslikev2_bucket/pets-support/images/sponsors/frame_287.png"
+          },
+          "address": {
+            "type": "string",
+            "format": "url",
+            "example": "Fedorivka, Kyiv Oblast, Ukraine, 07372"
+          },
+          "workDays": {
+            "minLength": 7,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sponsor_workDays"
+            }
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone with country code 13 symbols length",
+            "format": "phone",
+            "example": "+380999999999"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          }
+        },
+        "description": "Our sponsor"
+      },
+      "NewsResponse": {
+        "type": "array",
+        "description": "Our friends",
+        "items": {
+          "$ref": "#/components/schemas/NewsResponse_inner"
+        }
+      },
+      "Sponsor_workDays": {
+        "type": "object",
+        "properties": {
+          "isOpen": {
+            "type": "boolean"
+          },
+          "from": {
+            "type": "string",
+            "example": "11:00"
+          },
+          "to": {
+            "type": "string",
+            "example": "16:00"
+          }
+        }
+      },
+      "NewsResponse_inner": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "У Телеграмі запрацював чат-бот"
+          },
+          "url": {
+            "type": "string",
+            "format": "url"
+          },
+          "description": {
+            "type": "string",
+            "example": "У столиці запрацював спеціальний Telegram-бот «Твій вет Київ»"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "example": "2022-07-19"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
