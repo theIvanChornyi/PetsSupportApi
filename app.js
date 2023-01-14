@@ -2,13 +2,14 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 const path = require('path');
-const app = express();
-
 const authRouter = require('./routes/authRoute');
 const servicesRouter = require('./routes/servicesRoute');
 const newsRouter = require('./routes/newsRoute');
 const noticesRouter = require('./routes/noticesRoute');
 const userRouter = require('./routes/userRoute');
+const { swaggerUi, swaggerDocument } = require('./services/swagger/swagger');
+
+const app = express();
 
 const statitDir = path.join(__dirname, 'public');
 
@@ -17,11 +18,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(statitDir));
 
-app.use('/petsupport/auth', authRouter);
-app.use('/petsupport/services', servicesRouter);
-app.use('/petsupport/news', newsRouter);
-app.use('/petsupport/notices', noticesRouter);
-app.use('/petsupport/user', userRouter);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/auth', authRouter);
+app.use('/services', servicesRouter);
+app.use('/news', newsRouter);
+app.use('/notices', noticesRouter);
+app.use('/user', userRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });

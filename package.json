@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon server.js",
+    "dev": "nodemon server.js",
     "start": "node server.js",
     "lint": "eslint **/*.js",
     "lint:fix": "eslint --fix **/*.js"
@@ -37,6 +37,7 @@
     "joi": "^17.7.0",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.8.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "swagger-ui-express": "^4.6.0"
   }
 }
