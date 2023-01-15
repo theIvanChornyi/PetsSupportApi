@@ -9,3 +9,5 @@ nodemon.json
 .env.example
 README.md
 .env
+.env.example
+.prettierrc.json

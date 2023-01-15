@@ -241,6 +241,66 @@
           }
         }
       }
+    },
+    "/user/avatar": {
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Uploads a user avatar, Use \"avatar\" value in input \"name\" attribute. Single image, jpg jpeg png extention, max size 5Mb.",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/user_avatar_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Change avatar",
+            "content": {
+              "application/json": {
+                "example": {
+                  "avatarURL": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Empty image, or does not use \"avatar\" input key, or not valid image mime type or size",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -344,15 +404,15 @@
             "description": "User`s id",
             "format": "id"
           },
-           "email": {
-            "type": "string",
-            "description": "User's email",
-            "format": "email"
-          },
           "name": {
             "type": "string",
             "description": "User's name only words without numbers and symbols",
             "example": "Gretta"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
           },
           "phone": {
             "type": "string",
@@ -360,18 +420,11 @@
             "format": "phone",
             "example": "+380999999999"
           },
-          "avatarURL":{
-            "type": "string",
-            "description": "User`s avatar image",
-            "format": "url"
-          },
           "location": {
             "type": "string",
             "description": "User`s location Region and City",
             "example": "Brovary, Kyiv"
           },
-          "pets":{"type": "string"},
-          "notice":{"type": "string"},
           "birthday": {
             "type": "string",
             "description": "Users date of birthday",
@@ -445,6 +498,15 @@
         "description": "Our friends",
         "items": {
           "$ref": "#/components/schemas/NewsResponse_inner"
+        }
+      },
+      "user_avatar_body": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "string",
+            "format": "binary"
+          }
         }
       },
       "Sponsor_workDays": {
