@@ -1,18 +1,19 @@
-const path = require('path');
 const multer = require('multer');
 const createError = require('../helpers/createError');
-const fileSlorageDir = path.join(__dirname, '../tmp');
 
-const storage = multer.diskStorage({
-  destination: fileSlorageDir,
-  limits: { fileSize: 500000 },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
+const storage = multer({
+  storage: multer.diskStorage({}),
+  limits: { fileSize: 5000000 },
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      return cb(new Error('Please upload a valid image file'));
+    }
+    cb(null, true);
   },
 });
 
 const avatarStorrageMiddleware = function (req, res, next) {
-  const upload = multer({ storage }).single('avatar');
+  const upload = storage.single('avatar');
   upload(req, res, function (err) {
     if (err) {
       next(createError(400, err.message));
