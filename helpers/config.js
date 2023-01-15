@@ -8,6 +8,7 @@ const {
   CLOUDINARY_CLOUD,
   CLOUDINARY_KEY,
   CLOUDINARY_SECRET,
+  GEO_NAMES_USER,
 } = process.env;
 
 module.exports = {
@@ -18,4 +19,5 @@ module.exports = {
   CLOUDINARY_CLOUD,
   CLOUDINARY_KEY,
   CLOUDINARY_SECRET,
+  GEO_NAMES_USER,
 };

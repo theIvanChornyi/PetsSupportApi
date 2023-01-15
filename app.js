@@ -5,9 +5,13 @@ const path = require('path');
 const authRouter = require('./routes/authRoute');
 const servicesRouter = require('./routes/servicesRoute');
 const newsRouter = require('./routes/newsRoute');
+
 const noticesRouter = require('./routes/noticesRoute');
 const userRouter = require('./routes/userRoute');
 const { swaggerUi, swaggerDocument } = require('./services/swagger/swagger');
+const ctrlWrapper = require('./helpers/ctrlWrapper');
+const getLocation = require('./controllers/geoNameControllers/getLocation');
+const authMdw = require('./middlewares/authMdw');
 
 const app = express();
 
@@ -19,6 +23,8 @@ app.use(express.json());
 app.use(express.static(statitDir));
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.get('/location', authMdw, ctrlWrapper(getLocation));
+
 app.use('/auth', authRouter);
 app.use('/services', servicesRouter);
 app.use('/news', newsRouter);
