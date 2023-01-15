@@ -16,6 +16,10 @@
       "description": "Authorization endpoints"
     },
     {
+      "name": "Other",
+      "description": "Helpers endpoints"
+    },
+    {
       "name": "Services-sidebar",
       "description": "Endpoint to give serveses contact information"
     },
@@ -301,6 +305,67 @@
           }
         ]
       }
+    },
+    "/location": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "Get list with city`s in Ukraine",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "query",
+            "description": "Type city start letters",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserLocationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -395,6 +460,25 @@
           }
         },
         "description": "User requeest body"
+      },
+      "UserLocationResponse": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "number",
+            "description": "Amount mathched city`s",
+            "format": "integer",
+            "example": 1
+          },
+          "cities": {
+            "type": "array",
+            "description": "Array with city and district names.",
+            "items": {
+              "$ref": "#/components/schemas/UserLocationResponse_cities"
+            }
+          }
+        },
+        "description": "Location requeest body"
       },
       "CurrentUserResponse": {
         "type": "object",
@@ -506,6 +590,19 @@
           "avatar": {
             "type": "string",
             "format": "binary"
+          }
+        }
+      },
+      "UserLocationResponse_cities": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Nova Odesa"
+          },
+          "regionArea": {
+            "type": "string",
+            "example": "Mykolaiv"
           }
         }
       },
