@@ -5,10 +5,12 @@ const changeAvatar = async (req, res) => {
   const { _id } = req.user;
 
   const upload = await cloudinary.uploader.upload(req.file.path, {
-    width: 200,
-    height: 300,
-    gravity: 'faces',
-    crop: 'fill',
+    folder: '/userAvatars',
+    transformation: [
+      { gravity: 'face', height: 400, width: 400, crop: 'crop' },
+      { radius: 'max' },
+      { width: 200, crop: 'scale' },
+    ],
   });
 
   const user = await User.findByIdAndUpdate(
