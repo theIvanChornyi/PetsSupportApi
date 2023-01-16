@@ -3,7 +3,7 @@
   "info": {
     "title": "Pets Support API",
     "description": "Its API for web aplication Pets Supprors",
-    "version": "1"
+    "version": "1.0.4"
   },
   "servers": [
     {
@@ -345,26 +345,8 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Not authorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BadRequest"
-                },
-                "example": {
-                  "message": "Not authorized"
-                }
-              }
-            }
           }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
+        }
       }
     }
   },
