@@ -3,7 +3,7 @@
   "info": {
     "title": "Pets Support API",
     "description": "Its API for web aplication Pets Supprors",
-    "version": "1.0.6"
+    "version": "1.0.7"
   },
   "servers": [
     {
@@ -252,6 +252,52 @@
           "User"
         ],
         "summary": "Get user data",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Change user information",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "Success",
@@ -775,6 +821,39 @@
             }
           }
         }
+      },
+      "ChangeUserRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password length: min 7 max:32",
+            "format": "password",
+            "example": "password"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name only words without numbers and symbols",
+            "example": "Gretta"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone with country code 13 symbols length",
+            "format": "phone",
+            "example": "+380999999999"
+          },
+          "location": {
+            "type": "string",
+            "description": "User`s location Region and City",
+            "example": "Brovary, Kyiv"
+          }
+        },
+        "description": "New user registration requeest body"
       },
       "inline_response_200": {
         "allOf": [

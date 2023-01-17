@@ -9,19 +9,24 @@ const changeAvatar = require('../controllers/userControllers/changeAvatar');
 const addUserPet = require('../controllers/userControllers/addUserPet');
 const deleteUserPet = require('../controllers/userControllers/deleteUserPet');
 const getUser = require('../controllers/userControllers/getUser');
+const { userUpdateValidationMdw } = require('../middlewares/userValidationMdw');
+const changeUser = require('../controllers/userControllers/changeUser');
 
 const router = express.Router();
 
-router.get('/', authMdw, ctrlWrapper(getUser));
+router.use(authMdw);
 
-router.patch('/avatar', authMdw, avatarStorrageMdw, ctrlWrapper(changeAvatar));
+router.get('/', ctrlWrapper(getUser));
+router.put('/', userUpdateValidationMdw, ctrlWrapper(changeUser));
+
+router.patch('/avatar', avatarStorrageMdw, ctrlWrapper(changeAvatar));
+
 router.post(
   '/petlist',
-  authMdw,
   avatarStorrageMdw,
   petValidationMdw,
   ctrlWrapper(addUserPet)
 );
-router.delete('/petlist/:id', authMdw, ctrlWrapper(deleteUserPet));
+router.delete('/petlist/:id', ctrlWrapper(deleteUserPet));
 
 module.exports = router;
