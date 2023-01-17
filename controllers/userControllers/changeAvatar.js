@@ -15,13 +15,16 @@ const changeAvatar = async (req, res) => {
 
   const user = await User.findByIdAndUpdate(
     { _id },
-    { avatarURL: upload.secure_url },
-    { new: true }
+    { avatarURL: upload.secure_url }
   ).select({
     avatarURL: 1,
     _id: 0,
   });
-  return res.status(200).json(user);
+
+  const public_id = user.avatarURL.split('/').reverse()[0].split('.')[0];
+  await cloudinary.uploader.destroy(`userAvatars/${public_id}`);
+
+  return res.status(200).json({ avatarURL: upload.secure_url });
 };
 
 module.exports = changeAvatar;
