@@ -50,7 +50,7 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    pets: Array,
+    pets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'pets' }],
     notice: Array,
     token: {
       type: String,

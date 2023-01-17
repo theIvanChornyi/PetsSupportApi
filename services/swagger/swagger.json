@@ -3,7 +3,7 @@
   "info": {
     "title": "Pets Support API",
     "description": "Its API for web aplication Pets Supprors",
-    "version": "1.0.4"
+    "version": "1.0.7"
   },
   "servers": [
     {
@@ -246,6 +246,90 @@
         }
       }
     },
+    "/user": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get user data",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Change user information",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/user/avatar": {
       "patch": {
         "tags": [
@@ -306,6 +390,130 @@
         ]
       }
     },
+    "/user/petlist": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Upload a pet card , Use \"avatar\" value in input \"name\" attribute. Single image, jpg jpeg png extention, max size 5Mb, and \"data\" object with\":\" name(required*), birthday, breed, comments keys",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPetRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "avatarURL": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user/petlist/:{petId}": {
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete user pet",
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "Unique pet id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/location": {
       "get": {
         "tags": [
@@ -345,8 +553,26 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     }
   },
@@ -486,6 +712,12 @@
             "format": "phone",
             "example": "+380999999999"
           },
+          "avatarURL": {
+            "type": "string",
+            "description": "User's photo",
+            "format": "url",
+            "example": "https://res.cloudinary.com/dhvghdefz/image/upload/v1673788106/fyozbxljckpwabwesg16.png"
+          },
           "location": {
             "type": "string",
             "description": "User`s location Region and City",
@@ -566,6 +798,73 @@
           "$ref": "#/components/schemas/NewsResponse_inner"
         }
       },
+      "NewPetRequest": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "string",
+            "format": "binary"
+          },
+          "data": {
+            "$ref": "#/components/schemas/NewPetRequest_data"
+          }
+        },
+        "description": "New pet create requeest body"
+      },
+      "PetsList": {
+        "type": "object",
+        "properties": {
+          "pets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PetsList_pets"
+            }
+          }
+        }
+      },
+      "ChangeUserRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password length: min 7 max:32",
+            "format": "password",
+            "example": "password"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name only words without numbers and symbols",
+            "example": "Gretta"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone with country code 13 symbols length",
+            "format": "phone",
+            "example": "+380999999999"
+          },
+          "location": {
+            "type": "string",
+            "description": "User`s location Region and City",
+            "example": "Brovary, Kyiv"
+          }
+        },
+        "description": "New user registration requeest body"
+      },
+      "inline_response_200": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CurrentUserResponse"
+          },
+          {
+            "$ref": "#/components/schemas/PetsList"
+          }
+        ]
+      },
       "user_avatar_body": {
         "type": "object",
         "properties": {
@@ -625,6 +924,43 @@
             "example": "2022-07-19"
           }
         }
+      },
+      "NewPetRequest_data": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Jack"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date"
+          },
+          "breed": {
+            "type": "string",
+            "example": "Persian cat"
+          },
+          "comments": {
+            "type": "string",
+            "example": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur  Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur"
+          }
+        }
+      },
+      "PetsList_pets": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "string",
+            "format": "binary"
+          },
+          "data": {
+            "$ref": "#/components/schemas/NewPetRequest_data"
+          }
+        },
+        "description": "New pet create requeest body"
       }
     },
     "securitySchemes": {
