@@ -23,7 +23,7 @@ router.patch('/favorite/:id', ctrlWrapper(addFavNotice));
 router.get('/favoriteads/:_id', authMdw, ctrlWrapper(getAuthFavNotice));
 router.delete('/favoriteads/:id', authMdw, ctrlWrapper(delAuthFavNotice));
 router.get('/myads/:_id', authMdw, ctrlWrapper(getAuthOwnNotice));
-router.delete('/', authMdw, ctrlWrapper(delAuthOwnNotice));
+router.delete('/myads/:id', authMdw, ctrlWrapper(delAuthOwnNotice));
 
 
 module.exports = router;

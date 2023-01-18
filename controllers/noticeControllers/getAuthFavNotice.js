@@ -3,7 +3,7 @@ const userSchema = require('../../models/userModel');
 
 const getAuthFavNotice = async (req, res) => {
   const { _id } = req.params;
-  const notice = await userSchema.findById(_id).select({ favoriteNotices:1 }).populate('title')
+  const notice = await userSchema.findById(_id).select({ favoriteNotices: 1 })
     if (!notice) {
       throw createError(404, "Not Found");
     }

@@ -1,14 +1,14 @@
 const createError = require('../../helpers/createError');
-const userSchema = require('../../models/userModel');
+const Notice = require('../../models/noticeModel');
 
-const delAuthFavNotice = async (req, res) => {
-  const { _id } = req.params;
-  const notice = await userSchema.findByIdAndDelete(_id).select({ notice:1 }).populate('title')
-    if (!result) {
+const delAuthOwnNotice = async (req, res) => {
+  const { id } = req.params;
+  const notice = await Notice.findByIdAndDelete(id);
+    if (!notice) {
       throw createError(404, "Not Found");
     }
-    res.status(204).json(notice);
+    res.status(204).json({message: "Notice deleted!"});
 }
 
 
-module.exports = delAuthFavNotice;
+module.exports = delAuthOwnNotice;
