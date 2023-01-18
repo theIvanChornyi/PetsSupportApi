@@ -3,7 +3,7 @@
   "info": {
     "title": "Pets Support API",
     "description": "Its API for web aplication Pets Supprors",
-    "version": "1.0.7"
+    "version": "2"
   },
   "servers": [
     {
@@ -28,7 +28,7 @@
       "description": "Endpoint to give news"
     },
     {
-      "name": "Noticess",
+      "name": "Notices",
       "description": "Noticess endpoints"
     },
     {
@@ -247,52 +247,16 @@
       }
     },
     "/user": {
-      "get": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Get user data",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inline_response_200"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BadRequest"
-                },
-                "example": {
-                  "message": "Not authorized"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      },
       "put": {
         "tags": [
           "User"
         ],
-        "summary": "Change user information",
+        "summary": "Change users fields, you should use one of this keys",
         "requestBody": {
           "content": {
             "aplication/json": {
               "schema": {
-                "$ref": "#/components/schemas/ChangeUserRequest"
+                "$ref": "#/components/schemas/ChangeUserFieldsRequest"
               }
             }
           },
@@ -300,11 +264,23 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "Change avatar",
+            "content": {
+              "application/json": {
+                "example": {
+                  "avatarURL": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Empty image, or does not use \"avatar\" input key, or not valid image mime type or size",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/inline_response_200"
+                  "$ref": "#/components/schemas/BadRequest"
                 }
               }
             }
@@ -450,7 +426,7 @@
         ]
       }
     },
-    "/user/petlist/:{petId}": {
+    "/user/petlist/{petId}": {
       "delete": {
         "tags": [
           "User"
@@ -500,6 +476,183 @@
             "description": "Not found",
             "content": {
               "application/json": {
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/notices/category/{category}": {
+      "get": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Get all notices by category",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "description": "Notices category",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "sell",
+                "inGoodHands",
+                "lostFound"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticeByCategoryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notices/{id}": {
+      "get": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Notice full info",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Notices category",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "id",
+              "example": "63c7f6fe2790905a8c7923e8"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notices/new": {
+      "post": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Upload a notice , Use \"avatar\" value in input \"name\" attribute. Single image, jpg jpeg png extention, max size 5Mb, and \"notice\" object with\":\" title, location, price, category, comments keys , all field are required",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/NewNoticeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewNoticeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
                 "example": {
                   "message": "Not authorized"
                 }
@@ -627,6 +780,37 @@
         },
         "description": "New user registration requeest body"
       },
+      "ChangeUserFieldsRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name only words without numbers and symbols",
+            "example": "Gretta"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone with country code 13 symbols length",
+            "format": "phone",
+            "example": "+380999999999"
+          },
+          "location": {
+            "type": "string",
+            "description": "User`s location Region and City",
+            "example": "Brovary, Kyiv"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "description": "New user registration requeest body"
+      },
       "LoginUserRequest": {
         "required": [
           "email",
@@ -712,12 +896,6 @@
             "format": "phone",
             "example": "+380999999999"
           },
-          "avatarURL": {
-            "type": "string",
-            "description": "User's photo",
-            "format": "url",
-            "example": "https://res.cloudinary.com/dhvghdefz/image/upload/v1673788106/fyozbxljckpwabwesg16.png"
-          },
           "location": {
             "type": "string",
             "description": "User`s location Region and City",
@@ -791,6 +969,21 @@
         },
         "description": "Our sponsor"
       },
+      "Owner": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "test@test.com"
+          },
+          "phone": {
+            "type": "string",
+            "format": "phone",
+            "example": "380999999999"
+          }
+        }
+      },
       "NewsResponse": {
         "type": "array",
         "description": "Our friends",
@@ -811,59 +1004,167 @@
         },
         "description": "New pet create requeest body"
       },
-      "PetsList": {
+      "NewNoticeRequest": {
         "type": "object",
         "properties": {
-          "pets": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PetsList_pets"
-            }
-          }
-        }
-      },
-      "ChangeUserRequest": {
-        "type": "object",
-        "properties": {
-          "email": {
+          "avatar": {
             "type": "string",
-            "description": "User's email",
-            "format": "email"
+            "format": "binary"
           },
-          "password": {
+          "notice": {
+            "$ref": "#/components/schemas/NewNoticeRequest_notice"
+          }
+        },
+        "description": "New pet create requeest body"
+      },
+      "NewNoticeResponse": {
+        "type": "object",
+        "properties": {
+          "title": {
             "type": "string",
-            "description": "User's password length: min 7 max:32",
-            "format": "password",
-            "example": "password"
+            "example": "Сute dog looking for a home"
           },
           "name": {
             "type": "string",
-            "description": "User's name only words without numbers and symbols",
-            "example": "Gretta"
+            "example": "Сute"
           },
-          "phone": {
+          "breed": {
             "type": "string",
-            "description": "User's phone with country code 13 symbols length",
-            "format": "phone",
-            "example": "+380999999999"
+            "example": "Dog"
+          },
+          "sex": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ]
           },
           "location": {
             "type": "string",
-            "description": "User`s location Region and City",
-            "example": "Brovary, Kyiv"
+            "example": "Lviv / Lviv"
+          },
+          "price": {
+            "type": "string",
+            "example": "1000"
+          },
+          "avatarURL": {
+            "type": "string",
+            "format": "url",
+            "example": "https://res.cloudinary.com/dhvghdefz/image/upload/v1674048553/userNotices/kh4nvapkk48vkumkzqvm.jpg"
+          },
+          "comments": {
+            "type": "string",
+            "example": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur  Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "lostFound",
+              "inGoodHands",
+              "sell"
+            ]
+          },
+          "owner": {
+            "type": "string",
+            "format": "id",
+            "example": "63c5e911ca43a060dd85477f"
+          },
+          "_id": {
+            "type": "string",
+            "format": "id",
+            "example": "63c5e911ca43a060dd85477f"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date"
           }
         },
-        "description": "New user registration requeest body"
+        "description": "New notice create requeest body"
       },
-      "inline_response_200": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/CurrentUserResponse"
+      "NoticeByCategoryResponse": {
+        "type": "array",
+        "description": "New notice create requeest body",
+        "items": {
+          "$ref": "#/components/schemas/NoticeByCategoryResponse_inner"
+        }
+      },
+      "NoticeResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "format": "id",
+            "example": "63c5e911ca43a060dd85477f"
           },
-          {
-            "$ref": "#/components/schemas/PetsList"
+          "title": {
+            "type": "string",
+            "example": "Сute dog looking for a home"
+          },
+          "name": {
+            "type": "string",
+            "example": "Сute"
+          },
+          "breed": {
+            "type": "string",
+            "example": "Dog"
+          },
+          "sex": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "example": "Lviv / Lviv"
+          },
+          "price": {
+            "type": "string",
+            "example": "1000"
+          },
+          "avatarURL": {
+            "type": "string",
+            "format": "url",
+            "example": "https://res.cloudinary.com/dhvghdefz/image/upload/v1674048553/userNotices/kh4nvapkk48vkumkzqvm.jpg"
+          },
+          "comments": {
+            "type": "string",
+            "example": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur  Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "lostFound",
+              "inGoodHands",
+              "sell"
+            ]
+          },
+          "owner": {
+            "$ref": "#/components/schemas/Owner"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date"
           }
-        ]
+        },
+        "description": "Full info about Notice"
       },
       "user_avatar_body": {
         "type": "object",
@@ -949,18 +1250,131 @@
           }
         }
       },
-      "PetsList_pets": {
+      "NewNoticeRequest_notice": {
+        "required": [
+          "category",
+          "comments",
+          "location",
+          "price",
+          "title"
+        ],
         "type": "object",
         "properties": {
-          "avatar": {
+          "title": {
             "type": "string",
-            "format": "binary"
+            "example": "Сute dog looking for a home"
           },
-          "data": {
-            "$ref": "#/components/schemas/NewPetRequest_data"
+          "name": {
+            "type": "string",
+            "example": "Сute"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date"
+          },
+          "breed": {
+            "type": "string",
+            "example": "Dog"
+          },
+          "sex": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "example": "Lviv / Lviv"
+          },
+          "price": {
+            "type": "string",
+            "example": "1000"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "lostFound",
+              "inGoodHands",
+              "sell"
+            ]
+          },
+          "comments": {
+            "type": "string",
+            "example": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur  Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur"
           }
-        },
-        "description": "New pet create requeest body"
+        }
+      },
+      "NoticeByCategoryResponse_inner": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "format": "id",
+            "example": "63c5e911ca43a060dd85477f"
+          },
+          "title": {
+            "type": "string",
+            "example": "Сute dog looking for a home"
+          },
+          "name": {
+            "type": "string",
+            "example": "Сute"
+          },
+          "breed": {
+            "type": "string",
+            "example": "Dog"
+          },
+          "sex": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "example": "Lviv / Lviv"
+          },
+          "price": {
+            "type": "string",
+            "example": "1000"
+          },
+          "avatarURL": {
+            "type": "string",
+            "format": "url",
+            "example": "https://res.cloudinary.com/dhvghdefz/image/upload/v1674048553/userNotices/kh4nvapkk48vkumkzqvm.jpg"
+          },
+          "comments": {
+            "type": "string",
+            "example": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur  Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "lostFound",
+              "inGoodHands",
+              "sell"
+            ]
+          },
+          "owner": {
+            "type": "string",
+            "format": "id",
+            "example": "63c5e911ca43a060dd85477f"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date"
+          }
+        }
       }
     },
     "securitySchemes": {

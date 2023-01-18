@@ -19,6 +19,7 @@ const router = express.Router();
 router.post('/new', authMdw, avatarStorrageMdw, ctrlWrapper(addNotice));
 router.get('/:id', ctrlWrapper(getNotice));
 router.get('/category/:category', ctrlWrapper(getNoticeByCategory));
+
 router.patch('/favorite/:id', ctrlWrapper(addFavNotice));
 router.get('/favoriteads', authMdw, ctrlWrapper(getAuthFavNotice));
 router.delete('/:petId/favoriteads', authMdw, ctrlWrapper(delAuthFavNotice));
