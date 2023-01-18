@@ -52,7 +52,11 @@ const userSchema = new mongoose.Schema(
     },
     pets: Array,
     notice: Array,
-    favoriteNotices: Array,
+    favoriteNotices: {
+      type: Array,
+  
+    }
+    ,
     token: {
       type: String,
       default: null,

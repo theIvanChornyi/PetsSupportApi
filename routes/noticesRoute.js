@@ -20,9 +20,9 @@ router.post('/new', authMdw, avatarStorrageMiddleware, ctrlWrapper(addNotice));
 router.get('/:id', ctrlWrapper(getNotice));
 router.get('/category/:category', ctrlWrapper(getNoticeByCategory));
 router.patch('/favorite/:id', ctrlWrapper(addFavNotice));
-router.get('/favoriteads', authMdw, ctrlWrapper(getAuthFavNotice));
-router.delete('/:petId/favoriteads', authMdw, ctrlWrapper(delAuthFavNotice));
-router.get('/', authMdw, ctrlWrapper(getAuthOwnNotice));
+router.get('/favoriteads/:_id', authMdw, ctrlWrapper(getAuthFavNotice));
+router.delete('/favoriteads/:id', authMdw, ctrlWrapper(delAuthFavNotice));
+router.get('/myads/:_id', authMdw, ctrlWrapper(getAuthOwnNotice));
 router.delete('/', authMdw, ctrlWrapper(delAuthOwnNotice));
 
 

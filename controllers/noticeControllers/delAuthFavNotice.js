@@ -1,13 +1,15 @@
 const createError = require('../../helpers/createError');
+const Notice = require('../../models/noticeModel');
 const userSchema = require('../../models/userModel');
 
 const delAuthFavNotice = async (req, res) => {
-    const { _id: owner } = req.user;
-    const notice = await userSchema.findByIdAndDelete({owner}, req.body.favoriteNotices, { new: true })
-    if (!result) {
+  const { id } = req.params;
+  const data = await Notice.findByIdAndDelete(id).populate('owner', { favoriteNotices: id } );
+    if (!data) {
       throw createError(404, "Not Found");
     }
-    res.status(204).json(notice);
+  console.log(data)
+    res.status(204).json({message: "Notice deleted from favourites"});
 }
 
 

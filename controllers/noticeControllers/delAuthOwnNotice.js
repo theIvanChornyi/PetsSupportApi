@@ -2,8 +2,8 @@ const createError = require('../../helpers/createError');
 const userSchema = require('../../models/userModel');
 
 const delAuthFavNotice = async (req, res) => {
-  const { _id: owner } = req.user;
-    const notice = await userSchema.findByIdAndDelete(id, req.body.notice, { new: true })
+  const { _id } = req.params;
+  const notice = await userSchema.findByIdAndDelete(_id).select({ notice:1 }).populate('title')
     if (!result) {
       throw createError(404, "Not Found");
     }
