@@ -52,6 +52,7 @@ const userSchema = new mongoose.Schema(
     },
     pets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'pets' }],
     notice: Array,
+    favoriteNotices: Array,
     token: {
       type: String,
       default: null,
