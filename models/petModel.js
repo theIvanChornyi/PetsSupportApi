@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const { userNameRegExp } = require('../helpers/regExpressions');
+const { userNameRegExp, dataRegExp } = require('../helpers/regExpressions');
 
 const petSchema = new mongoose.Schema(
   {
@@ -11,8 +11,8 @@ const petSchema = new mongoose.Schema(
       match: userNameRegExp,
     },
     birthday: {
-      type: Date,
-      default: Date.now,
+      type: String,
+      match: dataRegExp,
     },
     breed: {
       type: String,

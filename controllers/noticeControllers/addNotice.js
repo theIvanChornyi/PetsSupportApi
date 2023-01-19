@@ -6,12 +6,15 @@ const createError = require('../../helpers/createError');
 const {
   userNameRegExp,
   commentRegExp,
+  dataRegExp,
 } = require('../../helpers/regExpressions');
 
 const schemaNotice = Joi.object({
   title: Joi.string().required().pattern(commentRegExp).min(2).max(48),
   name: Joi.string().pattern(userNameRegExp).min(2).max(16),
-  birthday: Joi.date(),
+  birthday: Joi.string().pattern(dataRegExp).messages({
+    'string.pattern.base': `Date shouldt be dd.mm.yyyy format only`,
+  }),
   breed: Joi.string().pattern(userNameRegExp).min(2).max(24),
   sex: Joi.string().valid('male', 'female'),
   location: Joi.string().required(),

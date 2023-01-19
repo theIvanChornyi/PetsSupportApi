@@ -3,6 +3,7 @@ const {
   userNameRegExp,
   commentRegExp,
   priceRegExp,
+  dataRegExp,
 } = require('../helpers/regExpressions');
 
 const noticeSchema = new mongoose.Schema(
@@ -21,8 +22,8 @@ const noticeSchema = new mongoose.Schema(
       default: '',
     },
     birthday: {
-      type: Date,
-      default: Date.now,
+      type: String,
+      match: dataRegExp,
     },
     breed: {
       type: String,

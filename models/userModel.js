@@ -6,6 +6,7 @@ const {
   passwordRegExp,
   userNameRegExp,
   phoneRegExp,
+  dataRegExp,
 } = require('../helpers/regExpressions');
 
 const userSchema = new mongoose.Schema(
@@ -14,6 +15,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Email is required'],
       match: emailRegExp,
+      minLength: 10,
+      maxLength: 64,
       unique: true,
     },
     password: {
@@ -47,8 +50,8 @@ const userSchema = new mongoose.Schema(
       required: [true, 'Name is required'],
     },
     birthday: {
-      type: Date,
-      default: Date.now,
+      type: String,
+      match: dataRegExp,
     },
     pets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'pets' }],
     notice: Array,

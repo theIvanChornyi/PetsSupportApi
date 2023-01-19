@@ -5,6 +5,7 @@ const {
   passwordRegExp,
   userNameRegExp,
   phoneRegExp,
+  dataRegExp,
 } = require('../helpers/regExpressions');
 
 const userRegValidationMdw = async (req, res, next) => {
@@ -34,7 +35,7 @@ const userUpdateValidationMdw = async (req, res, next) => {
 };
 
 const schemaCreate = Joi.object({
-  email: Joi.string().pattern(emailRegExp).required(),
+  email: Joi.string().pattern(emailRegExp).min(10).max(64).required(),
   password: Joi.string().pattern(passwordRegExp).min(7).max(32).required(),
   name: Joi.string().pattern(userNameRegExp).max(100).required(),
   phone: Joi.string().pattern(phoneRegExp).min(13).max(13).required(),
@@ -46,7 +47,9 @@ const schemaUpdate = Joi.object({
   name: Joi.string().pattern(userNameRegExp).max(100),
   phone: Joi.string().pattern(phoneRegExp).min(13).max(13),
   location: Joi.string().max(100),
-  birthday: Joi.date(),
+  birthday: Joi.string().pattern(dataRegExp).messages({
+    'string.pattern.base': `Date shouldt be dd.mm.yyyy format only`,
+  }),
 });
 
 module.exports = { userRegValidationMdw, userUpdateValidationMdw };

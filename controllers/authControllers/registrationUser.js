@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../../models/userModel');
 
 const { TOKEN_SALT } = require('../../helpers/config');
+const dateFormating = require('../../helpers/dateFormating');
 
 const registrationUser = async (req, res, next) => {
   const { email, password, name, location, phone } = req.body;
@@ -11,6 +12,7 @@ const registrationUser = async (req, res, next) => {
     name: name.trim(),
     location: location.trim(),
     phone,
+    birthday: dateFormating(),
   });
   try {
     const token = jwt.sign({ _id }, TOKEN_SALT, { expiresIn: '24h' });

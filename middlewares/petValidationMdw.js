@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const createError = require('../helpers/createError');
-const { userNameRegExp } = require('../helpers/regExpressions');
+const { userNameRegExp, dataRegExp } = require('../helpers/regExpressions');
 
 const petValidationMdw = async (req, res, next) => {
   try {
@@ -19,7 +19,9 @@ const petValidationMdw = async (req, res, next) => {
 
 const schemaPet = Joi.object({
   name: Joi.string().pattern(userNameRegExp).min(2).max(16).required(),
-  birthday: Joi.date(),
+  birthday: Joi.string().pattern(dataRegExp).messages({
+    'string.pattern.base': `Date shouldt be dd.mm.yyyy format only`,
+  }),
   breed: Joi.string().min(2).max(16),
   comments: Joi.string().min(8).max(120),
 });
