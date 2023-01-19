@@ -50,13 +50,15 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    pets: Array,
-    notice: Array,
-    favoriteNotices: {
-      type: Array,
-  
-    }
-    ,
+    pets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'pets' }],
+    notice: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'notice'
+    }],
+    favoriteNotices: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'notice'
+    }],
     token: {
       type: String,
       default: null,

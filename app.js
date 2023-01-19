@@ -11,7 +11,6 @@ const userRouter = require('./routes/userRoute');
 const { swaggerUi, swaggerDocument } = require('./services/swagger/swagger');
 const ctrlWrapper = require('./helpers/ctrlWrapper');
 const getLocation = require('./controllers/geoNameControllers/getLocation');
-const authMdw = require('./middlewares/authMdw');
 
 const app = express();
 
@@ -23,7 +22,7 @@ app.use(express.json());
 app.use(express.static(statitDir));
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.get('/location', authMdw, ctrlWrapper(getLocation));
+app.get('/location', ctrlWrapper(getLocation));
 
 app.use('/auth', authRouter);
 app.use('/services', servicesRouter);

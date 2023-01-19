@@ -12,17 +12,17 @@ const storage = multer({
   },
 });
 
-const avatarStorrageMiddleware = function (req, res, next) {
+const avatarStorrageMdw = function (req, res, next) {
   const upload = storage.single('avatar');
   upload(req, res, function (err) {
     if (err) {
       next(createError(400, err.message));
     }
-    if (!req?.file) {
+    if (!req?.file && !req?.body?.data) {
       next(createError(400, 'Unexpected image'));
     }
     next();
   });
 };
 
-module.exports = { avatarStorrageMiddleware };
+module.exports = avatarStorrageMdw;

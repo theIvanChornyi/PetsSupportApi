@@ -2,8 +2,8 @@ const createError = require('../../helpers/createError');
 const userSchema = require('../../models/userModel');
 
 const getAuthFavNotice = async (req, res) => {
-  const { _id } = req.params;
-  const notice = await userSchema.findById(_id).select({ favoriteNotices: 1 })
+  const userId = req.params.userId;
+  const notice = await userSchema.findById(userId).populate('favoriteNotices');
     if (!notice) {
       throw createError(404, "Not Found");
     }
