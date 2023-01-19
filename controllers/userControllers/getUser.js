@@ -8,8 +8,7 @@ const getUser = async (req, res) => {
     .select({ password: 0, token: 0, notice: 0 })
     .populate('pets', '-owner');
 
-  const birthday = dateFormating(user.birthday);
-  return res.status(200).json({ ...user, birthday });
+  return res.status(200).json(user);
 };
 
 module.exports = getUser;
