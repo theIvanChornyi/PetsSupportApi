@@ -1,13 +1,15 @@
 const createError = require('../../helpers/createError');
 const Pet = require('../../models/petModel');
+const User = require('../../models/userModel');
 const cloudinary = require('../../services/cloudinary/cloudinary');
 
 const deleteUserPet = async (req, res, next) => {
   const { id } = req.params;
+  const { _id: owner } = req.user;
   try {
     const data = await Pet.findByIdAndDelete(id);
-
     if (!data) throw createError(404, 'Not found');
+    await User.findByIdAndUpdate(owner, { $pull: { pets: data._id } });
 
     const public_id = data.avatarURL.split('/').reverse()[0].split('.')[0];
     await cloudinary.uploader.destroy(`petsAvatars/${public_id}`);

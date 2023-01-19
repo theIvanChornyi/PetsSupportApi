@@ -1,4 +1,3 @@
-const dateFormating = require('../../helpers/dateFormating');
 const User = require('../../models/userModel');
 
 const getUser = async (req, res) => {
