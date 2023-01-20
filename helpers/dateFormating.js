@@ -4,7 +4,6 @@ const dateFormating = (date = new Date()) => {
     month: 'numeric',
     day: 'numeric',
   });
-
   const norm = localeDate
     .split('.')
     .map(item => item.padStart(2, '0'))

@@ -1,4 +1,4 @@
-const emailRegExp = /^\w{1,}[\.-\w]+\w*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const emailRegExp = /^\w{1,}[\.-\w]*\w{1,}@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const passwordRegExp = /^\w*$/;
 const userNameRegExp = /^([a-zA-Z]{1,}[`-]?[a-zA-Z]?)+$/;
 const phoneRegExp = /^\+380\d{3}\d{2}\d{2}\d{2}$/;
