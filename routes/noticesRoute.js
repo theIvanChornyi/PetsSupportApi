@@ -23,7 +23,7 @@ router.get('/category/:category', ctrlWrapper(getNoticeByCategory));
 
 router.patch('/favorite/:id',authMdw, ctrlWrapper(addFavNotice));
 
-router.get('/favoriteads/:userId', authMdw, ctrlWrapper(getAuthFavNotice));
+router.get('/favoriteads', authMdw, ctrlWrapper());
 router.delete('/favoriteads/:id', authMdw, ctrlWrapper(delAuthFavNotice));
 router.get('/myads/:userId', authMdw, ctrlWrapper(getAuthOwnNotice));
 router.delete('/myads/:id', authMdw, ctrlWrapper(delAuthOwnNotice));
