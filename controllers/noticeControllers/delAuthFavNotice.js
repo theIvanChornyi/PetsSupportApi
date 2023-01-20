@@ -1,31 +1,19 @@
 const createError = require('../../helpers/createError');
-const Notice = require('../../models/noticeModel');
 const User = require('../../models/userModel');
-const userSchema = require('../../models/userModel');
-
-// const delAuthFavNotice = async (req, res) => {
-//   const { id } = req.params;
-//   const data = await Notice.findByIdAndDelete(id).populate('owner', { favoriteNotices: id } );
-//     if (!data) {
-//       throw createError(404, "Not Found");
-//     }
-//   console.log(data)
-//     res.status(204).json({message: "Notice deleted from favourites"});
-// }
 
 const delAuthFavNotice = async (req, res) => {
   const { id } = req.params;
   const { _id } = req.user;
   const list = await User.findById(_id).select({ favoriteNotices: 1 });
-  const index = await JSON.stringify(list.favoriteNotices).includes(id);
-  if (index) {
-    await User.findByIdAndUpdate(id, { $pull: { favoriteNotices: id } })
-    res.status(200).json({message: "Deleted from favourites"});
-    return
+  const index = await JSON.stringify(list.favoriteNotices).indexOf(id);
+  if (index !== -1) {
+      throw createError(404, "Not Found")
   }
-  return res.status(200).json({message: "Not in Favorite"});
-  
+  const data = await User.findByIdAndUpdate(_id, { $pull: { favoriteNotices: id } }, { new: true });
+  if (!data) {
+    throw createError(404, "Not Found");
+  }
+  return res.status(200).json(data.favoriteNotices);
 };
-
 
 module.exports = delAuthFavNotice;
