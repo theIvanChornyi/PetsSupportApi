@@ -736,7 +736,7 @@
         "tags": [
           "Notices"
         ],
-        "summary": "Get all users notices",
+        "summary": "Delete user`s notice",
         "parameters": [
           {
             "name": "id",
