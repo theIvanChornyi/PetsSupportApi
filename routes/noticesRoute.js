@@ -6,7 +6,6 @@ const {
   getNoticeByCategory,
   addFavNotice,
   getAuthFavNotice,
-  delAuthFavNotice,
   getAuthOwnNotice,
   delAuthOwnNotice,
 } = require('../controllers/noticeControllers');
@@ -17,8 +16,7 @@ const avatarStorrageMdw = require('../middlewares/avatarStorrageMdw');
 const router = express.Router();
 
 router.patch('/favorite/:id', authMdw, ctrlWrapper(addFavNotice));
-router.get('/favoriteads', authMdw, ctrlWrapper(getAuthFavNotice));
-router.delete('/favoriteads/:id', authMdw, ctrlWrapper(delAuthFavNotice));
+router.get('/favorite', authMdw, ctrlWrapper(getAuthFavNotice));
 router.get('/myads', authMdw, ctrlWrapper(getAuthOwnNotice));
 router.delete('/myads/:id', authMdw, ctrlWrapper(delAuthOwnNotice));
 

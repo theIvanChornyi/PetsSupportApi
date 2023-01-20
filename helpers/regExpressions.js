@@ -5,7 +5,7 @@ const phoneRegExp = /^\+380\d{3}\d{2}\d{2}\d{2}$/;
 const commentRegExp = /\w/im;
 const dataRegExp =
   /(^(0+?[1-9]|[12][0-9]|3[01])[-/.](0+?[1-9]|[1][0-12])[-/.]((19|20)\d\d))/;
-const priceRegExp = /^[1-9]/;
+const priceRegExp = /^[1-9]+[0-9]*$/;
 module.exports = {
   emailRegExp,
   passwordRegExp,
