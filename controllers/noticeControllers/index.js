@@ -6,12 +6,14 @@ const getAuthFavNotice = require('./getAuthFavNotice');
 const delAuthFavNotice = require('./delAuthFavNotice');
 const getAuthOwnNotice = require('./getAuthOwnNotice');
 const delAuthOwnNotice = require('./delAuthOwnNotice');
+const delFavNotice = require('./delAuthOwnNotice');
 
 module.exports = { 
     addNotice, 
     getNotice, 
     getNoticeByCategory, 
     addFavNotice,
+    delFavNotice,
     getAuthFavNotice,
     delAuthFavNotice,
     getAuthOwnNotice,

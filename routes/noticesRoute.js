@@ -16,14 +16,14 @@ const avatarStorrageMdw = require('../middlewares/avatarStorrageMdw');
 
 const router = express.Router();
 
+router.patch('/favorite/:id', authMdw, ctrlWrapper(addFavNotice));
+router.get('/favoriteads', authMdw, ctrlWrapper(getAuthFavNotice));
+router.delete('/favoriteads/:id', authMdw, ctrlWrapper(delAuthFavNotice));
+router.get('/myads', authMdw, ctrlWrapper(getAuthOwnNotice));
+router.delete('/myads/:id', authMdw, ctrlWrapper(delAuthOwnNotice));
+
 router.post('/new', authMdw, avatarStorrageMdw, ctrlWrapper(addNotice));
 router.get('/:id', ctrlWrapper(getNotice));
 router.get('/category/:category', ctrlWrapper(getNoticeByCategory));
-
-router.patch('/favorite/:id', ctrlWrapper(addFavNotice));
-router.get('/favoriteads', authMdw, ctrlWrapper(getAuthFavNotice));
-router.delete('/:petId/favoriteads', authMdw, ctrlWrapper(delAuthFavNotice));
-router.get('/', authMdw, ctrlWrapper(getAuthOwnNotice));
-router.delete('/', authMdw, ctrlWrapper(delAuthOwnNotice));
 
 module.exports = router;

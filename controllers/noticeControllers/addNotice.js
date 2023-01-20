@@ -8,6 +8,7 @@ const {
   commentRegExp,
   dataRegExp,
 } = require('../../helpers/regExpressions');
+const User = require('../../models/userModel');
 
 const schemaNotice = Joi.object({
   title: Joi.string().required().pattern(commentRegExp).min(2).max(48),
@@ -52,6 +53,9 @@ const addNotice = async (req, res, next) => {
     avatarURL,
     owner,
   });
+  console.log (notice.id)
+  await User.findByIdAndUpdate(owner, { $push: { notice: notice.id } });
+
   return res.status(201).json(notice);
 };
 

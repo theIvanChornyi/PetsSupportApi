@@ -53,8 +53,14 @@ const userSchema = new mongoose.Schema(
       match: dataRegExp,
     },
     pets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'pets' }],
-    notice: Array,
-    favoriteNotices: Array,
+    notice: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'notice'
+    }],
+    favoriteNotices: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'notice'
+    }],
     token: {
       type: String,
       default: null,
