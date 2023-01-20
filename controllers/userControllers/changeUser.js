@@ -8,9 +8,14 @@ const changeUser = async (req, res) => {
     { _id },
     { name, email, birthday: dateFormating(birthday), phone, location },
     { new: true }
-  )
-    .select({ password: 0, token: 0, notice: 0 })
-    .populate('pets', '-owner');
+  ).select({
+    password: 0,
+    token: 0,
+    notice: 0,
+    pets: 0,
+    favoriteNotices: 0,
+    avatarURL: 0,
+  });
   return res.status(200).json(user);
 };
 

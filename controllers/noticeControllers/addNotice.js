@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const Notice = require('../../models/noticeModel');
 const cloudinary = require('../../services/cloudinary/cloudinary');
+const dateFormating = require('../../helpers/dateFormating');
 
 const createError = require('../../helpers/createError');
 const {
@@ -42,7 +43,7 @@ const addNotice = async (req, res, next) => {
   }
   const { _id: owner } = req.user;
   const data = JSON.parse(req.body.notice);
-
+  console.log('data.birthday', data.birthday);
   const { error } = await schemaNotice.validateAsync(data);
   if (error) {
     throw createError(400, 'Missing required name field');
@@ -52,8 +53,8 @@ const addNotice = async (req, res, next) => {
     ...data,
     avatarURL,
     owner,
+    birthday: dateFormating(data.birthday),
   });
-  console.log (notice.id)
   await User.findByIdAndUpdate(owner, { $push: { notice: notice.id } });
 
   return res.status(201).json(notice);
