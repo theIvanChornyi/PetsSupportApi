@@ -43,7 +43,7 @@ const schemaCreate = Joi.object({
 });
 
 const schemaUpdate = Joi.object({
-  email: Joi.string().pattern(emailRegExp),
+  email: Joi.string().pattern(emailRegExp).min(10).max(63),
   name: Joi.string().pattern(userNameRegExp).max(100),
   phone: Joi.string().pattern(phoneRegExp).min(13).max(13),
   location: Joi.string().max(100),
