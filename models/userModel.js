@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema(
       required: [true, 'Email is required'],
       match: emailRegExp,
       minLength: 10,
-      maxLength: 64,
+      maxLength: 63,
       unique: true,
     },
     password: {

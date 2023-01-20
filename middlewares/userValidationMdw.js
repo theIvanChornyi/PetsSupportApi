@@ -35,7 +35,7 @@ const userUpdateValidationMdw = async (req, res, next) => {
 };
 
 const schemaCreate = Joi.object({
-  email: Joi.string().pattern(emailRegExp).min(10).max(64).required(),
+  email: Joi.string().pattern(emailRegExp).min(10).max(63).required(),
   password: Joi.string().pattern(passwordRegExp).min(7).max(32).required(),
   name: Joi.string().pattern(userNameRegExp).max(100).required(),
   phone: Joi.string().pattern(phoneRegExp).min(13).max(13).required(),
