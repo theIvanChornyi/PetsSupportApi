@@ -43,7 +43,6 @@ const addNotice = async (req, res, next) => {
   }
   const { _id: owner } = req.user;
   const data = JSON.parse(req.body.notice);
-  console.log('data.birthday', data.birthday);
   const { error } = await schemaNotice.validateAsync(data);
   if (error) {
     throw createError(400, 'Missing required name field');
