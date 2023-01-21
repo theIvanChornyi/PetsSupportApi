@@ -10,7 +10,7 @@ const {
 const User = require('../../models/userModel');
 
 const schemaNotice = Joi.object({
-  title: Joi.string().required().pattern(commentRegExp).min(2).max(48),
+  title: Joi.string().required().pattern(userNameRegExp).min(2).max(48),
   name: Joi.string().pattern(userNameRegExp).min(2).max(16),
   birthday: Joi.date(),
   breed: Joi.string().pattern(userNameRegExp).min(2).max(24),

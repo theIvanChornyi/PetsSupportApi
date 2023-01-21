@@ -12,10 +12,11 @@ const noticeSchema = new mongoose.Schema(
       required: [true, 'Title is required'],
       minLength: 2,
       maxLength: 48,
-      match: commentRegExp,
+      match: userNameRegExp,
     },
     name: {
-      type: String,
+        type: String,
+        minLength: 2,
       maxLength: 16,
       match: userNameRegExp,
       default: '',
@@ -25,7 +26,8 @@ const noticeSchema = new mongoose.Schema(
       default: Date.now,
     },
     breed: {
-      type: String,
+        type: String,
+        minLength: 2,
       maxLength: 24,
       match: userNameRegExp,
       default: '',
@@ -52,7 +54,8 @@ const noticeSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Comment is required'],
       minLength: 8,
-      maxLength: 120,
+        maxLength: 120,
+      default: '',
       match: commentRegExp,
     },
     category: {
