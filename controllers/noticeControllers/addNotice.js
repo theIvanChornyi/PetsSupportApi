@@ -1,29 +1,9 @@
-const Joi = require('joi');
 const Notice = require('../../models/noticeModel');
 const cloudinary = require('../../services/cloudinary/cloudinary');
 
 const createError = require('../../helpers/createError');
-const {
-  userNameRegExp,
-  commentRegExp,
-} = require('../../helpers/regExpressions');
 const User = require('../../models/userModel');
 
-const schemaNotice = Joi.object({
-  title: Joi.string().required().pattern(userNameRegExp).min(2).max(48),
-  name: Joi.string().pattern(userNameRegExp).min(2).max(16),
-  birthday: Joi.date(),
-  breed: Joi.string().pattern(userNameRegExp).min(2).max(24),
-  sex: Joi.string().valid('male', 'female'),
-  location: Joi.string().required(),
-  price: Joi.string().required().min(1),
-  avatarURL: Joi.string(),
-  category: Joi.string()
-    .required()
-    .valid('lostFound', 'inGoodHands', 'sell')
-    .default('sell'),
-  comments: Joi.string().required().pattern(commentRegExp).min(8).max(120),
-});
 
 const addNotice = async (req, res, next) => {
   let avatarURL = '';

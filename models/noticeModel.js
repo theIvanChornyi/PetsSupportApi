@@ -12,13 +12,13 @@ const noticeSchema = new mongoose.Schema(
       required: [true, 'Title is required'],
       minLength: 2,
       maxLength: 48,
-      match: userNameRegExp,
+      match: commentRegExp,
     },
     name: {
         type: String,
         minLength: 2,
       maxLength: 16,
-      match: userNameRegExp,
+      match: commentRegExp,
       default: '',
     },
     birthday: {
@@ -29,7 +29,7 @@ const noticeSchema = new mongoose.Schema(
         type: String,
         minLength: 2,
       maxLength: 24,
-      match: userNameRegExp,
+      match: commentRegExp,
       default: '',
     },
     sex: {
