@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon server.js",
+    "dev": "nodemon server.js",
     "start": "node server.js",
     "lint": "eslint **/*.js",
     "lint:fix": "eslint --fix **/*.js"
@@ -30,11 +30,18 @@
     "nodemon": "^2.0.20"
   },
   "dependencies": {
+    "axios": "^1.2.2",
     "bcrypt": "^5.1.0",
+    "cloudinary": "^1.33.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "joi": "^17.7.0",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.8.3",
-    "morgan": "^1.10.0"
+    "mongoose-deep-populate": "^3.2.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "swagger-ui-express": "^4.6.0"
   }
 }

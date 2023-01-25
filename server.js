@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 const app = require('./app');
-require('dotenv').config();
 
-const { PORT } = process.env ?? 3000;
-
-const { MONGOURI } = process.env;
+const { PORT = 3000, MONGOURI } = require('./helpers/config');
 
 const contactsDB = async () => {
   try {

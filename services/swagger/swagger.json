@@ -1,0 +1,1832 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Pets Support API",
+    "description": "Its API for web aplication Pets Supprors",
+    "version": "2.2.2"
+  },
+  "servers": [
+    {
+      "url": "https://petssupportapi.onrender.com"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authorization endpoints"
+    },
+    {
+      "name": "Other",
+      "description": "Helpers endpoints"
+    },
+    {
+      "name": "Services-sidebar",
+      "description": "Endpoint to give serveses contact information"
+    },
+    {
+      "name": "News",
+      "description": "Endpoint to give news"
+    },
+    {
+      "name": "Notices",
+      "description": "Noticess endpoints"
+    },
+    {
+      "name": "User",
+      "description": "User endpoints"
+    }
+  ],
+  "paths": {
+    "/auth/registration": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Create new user.",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Email in use"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "LogIn user",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/current": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get current user",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentUserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Logout current user",
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/services": {
+      "get": {
+        "tags": [
+          "Services-sidebar"
+        ],
+        "summary": "Get information about our friends",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OurFriendsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news": {
+      "get": {
+        "tags": [
+          "News"
+        ],
+        "summary": "Get news information",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Change users fields, you should use one of this keys",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Change users fields, you should use one of this keys",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeUserFieldsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Change avatar",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChangeUserFieldsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Empty image, or does not use \"avatar\" input key, or not valid image mime type or size",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user/avatar": {
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Uploads a user avatar, Use \"avatar\" value in input \"name\" attribute. Single image, jpg jpeg png extention, max size 5Mb.",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/user_avatar_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Change avatar",
+            "content": {
+              "application/json": {
+                "example": {
+                  "avatarURL": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Empty image, or does not use \"avatar\" input key, or not valid image mime type or size",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user/petlist": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Upload a pet card , Use \"avatar\" value in input \"name\" attribute. Single image, jpg jpeg png extention, max size 5Mb, and \"data\" object with\":\" name(required*), birthday, breed, comments keys",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPetRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pets"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user/petlist/{petId}": {
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete user pet",
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "Unique pet id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/notices/category/{category}": {
+      "get": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Get all notices by category",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "description": "Notices category",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "sell",
+                "inGoodHands",
+                "lostFound"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticeByCategoryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notices/{id}": {
+      "get": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Notice full info",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Notices category",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "id",
+              "example": "63c7f6fe2790905a8c7923e8"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notices/new": {
+      "post": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Upload a notice , Use \"avatar\" value in input \"name\" attribute. Single image, jpg jpeg png extention, max size 5Mb, and \"notice\" object with\":\" title, location, price, category, comments keys , all field are required",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/NewNoticeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewNoticeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/notices/myads": {
+      "get": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Get all users notices",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticeByCategoryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/notices/myads/{id}": {
+      "delete": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Delete user`s notice",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Notices id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "63cabf8df90d25f1c8a27f87"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok"
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/notices/favorite/{id}": {
+      "patch": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Add or remove Notice from fav",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Notices id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "63cabf8df90d25f1c8a27f87"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/favorite_id_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddToFavResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Bad request"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/notices/favorite": {
+      "get": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Get all users favorite notices",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticeByCategoryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/location": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "Get list with city`s in Ukraine",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "query",
+            "description": "Type city start letters",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserLocationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BadRequest": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "description": "Bad Request"
+      },
+      "NewUserRequest": {
+        "required": [
+          "email",
+          "location",
+          "name",
+          "password",
+          "phone"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password length: min 7 max:32",
+            "format": "password",
+            "example": "password"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name only words without numbers and symbols",
+            "example": "Gretta"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone with country code 13 symbols length",
+            "format": "phone",
+            "example": "+380999999999"
+          },
+          "location": {
+            "type": "string",
+            "description": "User`s location Region and City",
+            "example": "Brovary, Kyiv"
+          }
+        },
+        "description": "New user registration requeest body"
+      },
+      "ChangeUserFieldsRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name only words without numbers and symbols",
+            "example": "Gretta"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone with country code 13 symbols length",
+            "format": "phone",
+            "example": "+380999999999"
+          },
+          "location": {
+            "type": "string",
+            "description": "User`s location Region and City",
+            "example": "Brovary, Kyiv"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "description": "New user registration requeest body"
+      },
+      "ChangeUserFieldsResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "User`s id",
+            "format": "id"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name only words without numbers and symbols",
+            "example": "Gretta"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone with country code 13 symbols length",
+            "format": "phone",
+            "example": "+380999999999"
+          },
+          "location": {
+            "type": "string",
+            "description": "User`s location Region and City",
+            "example": "Brovary, Kyiv"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "description": "New user registration requeest body"
+      },
+      "LoginUserRequest": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password length: min 7 max:32",
+            "format": "password",
+            "example": "password"
+          }
+        },
+        "description": "User logIn requeest body"
+      },
+      "NewUserResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "User`s id",
+            "format": "id"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name only words without numbers and symbols",
+            "example": "Gretta"
+          },
+          "token": {
+            "type": "string",
+            "description": "Bearer token",
+            "format": "jwt"
+          }
+        },
+        "description": "User requeest body"
+      },
+      "UserLocationResponse": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "number",
+            "description": "Amount mathched city`s",
+            "format": "integer",
+            "example": 1
+          },
+          "cities": {
+            "type": "array",
+            "description": "Array with city and district names.",
+            "items": {
+              "$ref": "#/components/schemas/UserLocationResponse_cities"
+            }
+          }
+        },
+        "description": "Location requeest body"
+      },
+      "CurrentUserResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "User`s id",
+            "format": "id"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name only words without numbers and symbols",
+            "example": "Gretta"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone with country code 13 symbols length",
+            "format": "phone",
+            "example": "+380999999999"
+          },
+          "location": {
+            "type": "string",
+            "description": "User`s location Region and City",
+            "example": "Brovary, Kyiv"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "Users date of birthday",
+            "format": "date"
+          },
+          "avatarURL": {
+            "type": "string",
+            "format": "url",
+            "example": "https://res.cloudinary.com/dhvghdefz/image/upload/v1674048553/userNotices/kh4nvapkk48vkumkzqvm.jpg"
+          },
+          "favoriteNotices": {
+            "type": "array",
+            "description": "Array with favorite notices",
+            "items": {
+              "$ref": "#/components/schemas/CurrentUserResponse_favoriteNotices"
+            }
+          },
+          "notice": {
+            "type": "array",
+            "description": "Array with user own notices",
+            "items": {
+              "$ref": "#/components/schemas/CurrentUserResponse_favoriteNotices"
+            }
+          },
+          "token": {
+            "type": "string",
+            "description": "Bearer token",
+            "format": "jwt"
+          }
+        },
+        "description": "Current user requeest body"
+      },
+      "GetUserResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "User`s id",
+            "format": "id"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name only words without numbers and symbols",
+            "example": "Gretta"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone with country code 13 symbols length",
+            "format": "phone",
+            "example": "+380999999999"
+          },
+          "location": {
+            "type": "string",
+            "description": "User`s location Region and City",
+            "example": "Brovary, Kyiv"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "Users date of birthday",
+            "format": "date"
+          },
+          "avatarURL": {
+            "type": "string",
+            "format": "url",
+            "example": "https://res.cloudinary.com/dhvghdefz/image/upload/v1674048553/userNotices/kh4nvapkk48vkumkzqvm.jpg"
+          },
+          "favoriteNotices": {
+            "type": "array",
+            "description": "Array with favorite notices",
+            "items": {
+              "$ref": "#/components/schemas/CurrentUserResponse_favoriteNotices"
+            }
+          },
+          "notice": {
+            "type": "array",
+            "description": "Array with user own notices",
+            "items": {
+              "$ref": "#/components/schemas/CurrentUserResponse_favoriteNotices"
+            }
+          },
+          "pets": {
+            "type": "array",
+            "description": "Array with user pets",
+            "items": {
+              "$ref": "#/components/schemas/GetUserResponse_pets"
+            }
+          },
+          "token": {
+            "type": "string",
+            "description": "Bearer token",
+            "format": "jwt"
+          }
+        },
+        "description": "Current user requeest body"
+      },
+      "OurFriendsResponse": {
+        "type": "array",
+        "description": "Our friends",
+        "items": {
+          "$ref": "#/components/schemas/Sponsor"
+        }
+      },
+      "Sponsor": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Притулок для бездомних тварин 'Сіріус'"
+          },
+          "url": {
+            "type": "string",
+            "format": "url",
+            "example": "https://dogcat.com.ua"
+          },
+          "addressUrl": {
+            "type": "string",
+            "format": "url",
+            "example": "https://goo.gl/maps/iq8NXEUf31EAQCzc6"
+          },
+          "imageUrl": {
+            "type": "string",
+            "format": "url",
+            "example": "https://storage.googleapis.com/kidslikev2_bucket/pets-support/images/sponsors/frame_287.png"
+          },
+          "address": {
+            "type": "string",
+            "format": "url",
+            "example": "Fedorivka, Kyiv Oblast, Ukraine, 07372"
+          },
+          "workDays": {
+            "minLength": 7,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sponsor_workDays"
+            }
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone with country code 13 symbols length",
+            "format": "phone",
+            "example": "+380999999999"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          }
+        },
+        "description": "Our sponsor"
+      },
+      "Owner": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "test@test.com"
+          },
+          "phone": {
+            "type": "string",
+            "format": "phone",
+            "example": "380999999999"
+          }
+        }
+      },
+      "NewsResponse": {
+        "type": "array",
+        "description": "Our friends",
+        "items": {
+          "$ref": "#/components/schemas/NewsResponse_inner"
+        }
+      },
+      "NewPetRequest": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "string",
+            "format": "binary"
+          },
+          "data": {
+            "$ref": "#/components/schemas/NewPetRequest_data"
+          }
+        },
+        "description": "New pet create requeest body"
+      },
+      "NewNoticeRequest": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "string",
+            "format": "binary"
+          },
+          "notice": {
+            "$ref": "#/components/schemas/NewNoticeRequest_notice"
+          }
+        },
+        "description": "New pet create requeest body"
+      },
+      "NewNoticeResponse": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Сute dog looking for a home"
+          },
+          "name": {
+            "type": "string",
+            "example": "Сute"
+          },
+          "breed": {
+            "type": "string",
+            "example": "Dog"
+          },
+          "sex": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "example": "Lviv / Lviv"
+          },
+          "price": {
+            "type": "string",
+            "example": "1000"
+          },
+          "avatarURL": {
+            "type": "string",
+            "format": "url",
+            "example": "https://res.cloudinary.com/dhvghdefz/image/upload/v1674048553/userNotices/kh4nvapkk48vkumkzqvm.jpg"
+          },
+          "comments": {
+            "type": "string",
+            "example": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur  Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "lostFound",
+              "inGoodHands",
+              "sell"
+            ]
+          },
+          "owner": {
+            "type": "string",
+            "format": "id",
+            "example": "63c5e911ca43a060dd85477f"
+          },
+          "_id": {
+            "type": "string",
+            "format": "id",
+            "example": "63c5e911ca43a060dd85477f"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "description": "New notice create requeest body"
+      },
+      "NoticeByCategoryResponse": {
+        "type": "array",
+        "description": "New notice create requeest body",
+        "items": {
+          "$ref": "#/components/schemas/NoticeByCategoryResponse_inner"
+        }
+      },
+      "NoticeResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "format": "id",
+            "example": "63c5e911ca43a060dd85477f"
+          },
+          "title": {
+            "type": "string",
+            "example": "Сute dog looking for a home"
+          },
+          "name": {
+            "type": "string",
+            "example": "Сute"
+          },
+          "breed": {
+            "type": "string",
+            "example": "Dog"
+          },
+          "sex": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "example": "Lviv / Lviv"
+          },
+          "price": {
+            "type": "string",
+            "example": "1000"
+          },
+          "avatarURL": {
+            "type": "string",
+            "format": "url",
+            "example": "https://res.cloudinary.com/dhvghdefz/image/upload/v1674048553/userNotices/kh4nvapkk48vkumkzqvm.jpg"
+          },
+          "comments": {
+            "type": "string",
+            "example": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur  Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "lostFound",
+              "inGoodHands",
+              "sell"
+            ]
+          },
+          "owner": {
+            "$ref": "#/components/schemas/Owner"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "description": "Full info about Notice"
+      },
+      "Pets": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Pet id",
+            "format": "id"
+          },
+          "name": {
+            "type": "string",
+            "description": "Pet name only words without numbers and symbols",
+            "example": "Gretta"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "Pet date of birthday",
+            "format": "date"
+          },
+          "avatarURL": {
+            "type": "string",
+            "format": "url",
+            "example": "https://res.cloudinary.com/dhvghdefz/image/upload/v1674048553/userNotices/kh4nvapkk48vkumkzqvm.jpg"
+          },
+          "breed": {
+            "type": "string",
+            "example": "dog"
+          },
+          "comments": {
+            "type": "string",
+            "example": "Very good boy,lovely friend our family"
+          }
+        }
+      },
+      "AddToFavResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "enum": [
+              "Add to fav",
+              "Deletete from fav"
+            ]
+          }
+        }
+      },
+      "user_avatar_body": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "string",
+            "format": "binary"
+          }
+        }
+      },
+      "favorite_id_body": {
+        "type": "object",
+        "properties": {
+          "favorite": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UserLocationResponse_cities": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Nova Odesa"
+          },
+          "regionArea": {
+            "type": "string",
+            "example": "Mykolaiv"
+          }
+        }
+      },
+      "CurrentUserResponse_favoriteNotices": {
+        "type": "object",
+        "properties": {
+          "schema": {
+            "$ref": "#/components/schemas/NewNoticeResponse"
+          }
+        }
+      },
+      "GetUserResponse_pets": {
+        "type": "object",
+        "properties": {
+          "schema": {
+            "$ref": "#/components/schemas/Pets"
+          }
+        }
+      },
+      "Sponsor_workDays": {
+        "type": "object",
+        "properties": {
+          "isOpen": {
+            "type": "boolean"
+          },
+          "from": {
+            "type": "string",
+            "example": "11:00"
+          },
+          "to": {
+            "type": "string",
+            "example": "16:00"
+          }
+        }
+      },
+      "NewsResponse_inner": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "У Телеграмі запрацював чат-бот"
+          },
+          "url": {
+            "type": "string",
+            "format": "url"
+          },
+          "description": {
+            "type": "string",
+            "example": "У столиці запрацював спеціальний Telegram-бот «Твій вет Київ»"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "example": "2022-07-19"
+          }
+        }
+      },
+      "NewPetRequest_data": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Jack"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date"
+          },
+          "breed": {
+            "type": "string",
+            "example": "Persian cat"
+          },
+          "comments": {
+            "type": "string",
+            "example": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur  Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur"
+          }
+        }
+      },
+      "NewNoticeRequest_notice": {
+        "required": [
+          "category",
+          "comments",
+          "location",
+          "price",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Сute dog looking for a home"
+          },
+          "name": {
+            "type": "string",
+            "example": "Сute"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date"
+          },
+          "breed": {
+            "type": "string",
+            "example": "Dog"
+          },
+          "sex": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "example": "Lviv / Lviv"
+          },
+          "price": {
+            "type": "string",
+            "example": "1000"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "lostFound",
+              "inGoodHands",
+              "sell"
+            ]
+          },
+          "comments": {
+            "type": "string",
+            "example": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur  Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur"
+          }
+        }
+      },
+      "NoticeByCategoryResponse_inner": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "format": "id",
+            "example": "63c5e911ca43a060dd85477f"
+          },
+          "title": {
+            "type": "string",
+            "example": "Сute dog looking for a home"
+          },
+          "name": {
+            "type": "string",
+            "example": "Сute"
+          },
+          "breed": {
+            "type": "string",
+            "example": "Dog"
+          },
+          "sex": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "example": "Lviv / Lviv"
+          },
+          "price": {
+            "type": "string",
+            "example": "1000"
+          },
+          "avatarURL": {
+            "type": "string",
+            "format": "url",
+            "example": "https://res.cloudinary.com/dhvghdefz/image/upload/v1674048553/userNotices/kh4nvapkk48vkumkzqvm.jpg"
+          },
+          "comments": {
+            "type": "string",
+            "example": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur  Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "lostFound",
+              "inGoodHands",
+              "sell"
+            ]
+          },
+          "owner": {
+            "type": "string",
+            "format": "id",
+            "example": "63c5e911ca43a060dd85477f"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

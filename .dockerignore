@@ -1,0 +1,13 @@
+node_modules
+**/.dockerignore
+**/.git
+**/.gitignore
+**/Dockerfile*
+nodemon.json
+.eslintignore
+.eslintrc.js
+.env.example
+README.md
+.env
+.env.example
+.prettierrc.json
