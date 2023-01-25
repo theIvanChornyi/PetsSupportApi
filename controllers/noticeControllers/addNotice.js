@@ -1,7 +1,6 @@
 const Joi = require('joi');
 const Notice = require('../../models/noticeModel');
 const cloudinary = require('../../services/cloudinary/cloudinary');
-const dateFormating = require('../../helpers/dateFormating');
 
 const createError = require('../../helpers/createError');
 const {
@@ -10,6 +9,8 @@ const {
   dataRegExp,
 } = require('../../helpers/regExpressions');
 const User = require('../../models/userModel');
+const { date } = require('joi');
+const dateFormating = require('../../helpers/dateFormating');
 
 const schemaNotice = Joi.object({
   title: Joi.string().required().pattern(commentRegExp).min(2).max(48),
@@ -43,11 +44,11 @@ const addNotice = async (req, res, next) => {
   }
   const { _id: owner } = req.user;
   const data = JSON.parse(req.body.notice);
-  const { error } = await schemaNotice.validateAsync(data);
-  if (error) {
-    throw createError(400, 'Missing required name field');
+  try {
+    await schemaNotice.validateAsync(data);
+  } catch (error) {
+    throw createError(400, error);
   }
-
   const notice = await Notice.create({
     ...data,
     avatarURL,
