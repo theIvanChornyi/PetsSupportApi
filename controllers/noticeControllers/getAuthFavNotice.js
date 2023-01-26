@@ -6,7 +6,10 @@ const getAuthFavNotice = async (req, res) => {
   const notice = await userSchema
     .findById(_id)
     .select({ favoriteNotices: 1, _id: 0 })
-    .populate('favoriteNotices');
+    .populate({
+      path: 'favoriteNotices',
+      options: { sort: { createdAt: -1 } },
+    });
   if (!notice) {
     throw createError(404, 'Not Found');
   }
