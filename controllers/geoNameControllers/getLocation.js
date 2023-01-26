@@ -23,6 +23,7 @@ const getLocation = async (req, res, next) => {
         country: 'UA',
         maxRows: 20,
         style: 'MEDIUM',
+        searchlang: 'en',
       },
     });
     const responsData = data.geonames.map(({ name, adminName1 }) => ({
